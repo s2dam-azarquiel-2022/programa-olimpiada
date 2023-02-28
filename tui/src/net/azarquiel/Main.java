@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import net.azarquiel.model.League;
 import net.azarquiel.model.MenuOption;
+import net.azarquiel.model.Round;
 import net.azarquiel.view.SetResults;
 import net.azarquiel.view.ShowCalendar;
 import net.azarquiel.view.ShowMenu;
@@ -24,9 +25,16 @@ public class Main {
 			case SHOW_CALENDAR:
 				ShowCalendar.showCalendar();
 				break;
+
 			case SET_RESULTS:
-				SetResults.askRound();
+				Round round = SetResults.askRound();
+				if (round == null) break;
+				SetResults.setMatchScore(round.firstMatch);
+				SetResults.setMatchScore(round.secondMatch);
+				System.out.println("Resultado anotado\n");
+				Main.selectedOption = MenuOption.SHOW_MENU;
 				break;
+
 			default:
 				break;
 			}

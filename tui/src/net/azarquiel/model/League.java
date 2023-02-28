@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 public class League {
-	public static Team[] teams = new Team[] {
+	public  Team[] teams = new Team[] {
 		new Team("Toledo"),
 		new Team("Ciudad Real"),
 		new Team("Guadalajara"),
@@ -14,11 +14,11 @@ public class League {
 		new Team("Albacete"),
 	};
 	
-	public static Round[] rounds = new Round[10];
+	public Round[] rounds = new Round[10];
 	
 	public League() { generateCalendar(); }
 	
-	private static void generateCalendar() {
+	private  void generateCalendar() {
 		int[] restingIndexes = generateRestingTeams();
 		for (int j = 0; j < rounds.length / teams.length; j++) {
 			for (int i = 0; i < teams.length; i++) {
@@ -32,13 +32,13 @@ public class League {
 		}
 	}
 	
-	private static int[] generateRestingTeams() {
+	private  int[] generateRestingTeams() {
 		int[] result = IntStream.range(0, teams.length).toArray();
 		shuffle(result);
 		return result;
 	}
 	
-	private static int[] generateMatches(int[] arr, int pos) {
+	private  int[] generateMatches(int[] arr, int pos) {
 		int[] result = new int[arr.length - 1];
 		System.arraycopy(arr, 0, result, 0, pos);
 		System.arraycopy(arr, pos + 1, result, pos, arr.length - pos - 1);
@@ -46,7 +46,7 @@ public class League {
 		return result;
 	}
 	
-	private static void shuffle(int[] arr) {
+	private  void shuffle(int[] arr) {
 		Random rnGesus = ThreadLocalRandom.current();
 		for (int i = arr.length - 1; i > 0; i--) {
 			int index = rnGesus.nextInt(i + 1);

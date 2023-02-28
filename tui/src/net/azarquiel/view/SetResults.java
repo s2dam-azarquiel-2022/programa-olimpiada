@@ -13,7 +13,7 @@ public class SetResults {
 			int n = Integer.valueOf(Main.scanner.nextLine());
 	    	return Main.league.rounds[n - 1];
 		} catch (Exception e) {
-			System.err.println("Error: Jornada inexistente");
+			System.err.println("Error: Jornada inexistente\n");
 			return null;
 		}
 	}

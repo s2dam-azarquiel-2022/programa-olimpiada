@@ -3,6 +3,9 @@ package net.azarquiel.model;
 public class Match {
 	public Team local;
 	public Team visitor;
+	public int localScore;
+	public int visitorScore;
+	
 
 	public Match(Team local, Team visitor) {
 		this.local = local;

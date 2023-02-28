@@ -1,7 +1,5 @@
 package net.azarquiel.view;
 
-import java.util.Scanner;
-
 import net.azarquiel.Main;
 import net.azarquiel.model.MenuOption;
 
@@ -20,7 +18,6 @@ public class ShowMenu {
 
 	public static void showText() { System.out.println(text); }
 	
-	
 	public static void handleInput() {
 		try {
 			String opt = Main.scanner.nextLine();
@@ -28,6 +25,7 @@ public class ShowMenu {
 			System.out.println("");
 		} catch (Exception e) {
 			System.err.println(errText);
+			System.out.println("");
 			Main.selectedOption = MenuOption.SHOW_MENU;
 		}
 	}

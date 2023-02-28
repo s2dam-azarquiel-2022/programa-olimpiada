@@ -16,4 +16,6 @@ public class Match {
 	public String toString() {
 		return String.format("%s - %s", local.name, visitor.name);
 	}
+	
+	public Match reverse() { return new Match(this.visitor, this.local); }
 }

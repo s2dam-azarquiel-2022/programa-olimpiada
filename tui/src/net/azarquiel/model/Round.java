@@ -24,4 +24,13 @@ public class Round {
 			rest.name
 		);
 	}
+	
+	public Round reverse() {
+		Round result = new Round(
+			this.firstMatch.reverse(),
+			this.secondMatch.reverse(),
+			this.rest
+		);
+		return result;
+	}
 }

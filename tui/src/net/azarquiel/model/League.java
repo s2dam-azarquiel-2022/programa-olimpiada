@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 public class League {
-	public  Team[] teams = new Team[] {
+	public Team[] teams = new Team[] {
 		new Team("Toledo"),
 		new Team("Ciudad Real"),
 		new Team("Guadalajara"),
@@ -14,31 +14,37 @@ public class League {
 		new Team("Albacete"),
 	};
 	
-	public Round[] rounds = new Round[10];
+	public Round[] rounds = new Round[teams.length * 2];
 	
 	public League() { generateCalendar(); }
 	
-	private  void generateCalendar() {
-		int[] restingIndexes = generateRestingTeams();
-		for (int j = 0; j < rounds.length / teams.length; j++) {
-			for (int i = 0; i < teams.length; i++) {
-				int[] generated_matches = generateMatches(restingIndexes, i);
-				rounds[j * teams.length + i] = new Round(
-					new Match(teams[generated_matches[0]], teams[generated_matches[1]]),
-					new Match(teams[generated_matches[2]], teams[generated_matches[3]]),
-					teams[restingIndexes[i]]
-				);
-			}
+	private void generateCalendar() {
+		// Randomized order for teams to rest
+		int[] restingIndexes = generateRandomIndexes();
+		for (int i = 0; i < teams.length; i++) {
+			// Randomized matches
+			int[] generated_matches = generateMatches(restingIndexes, i);
+			rounds[i] = new Round(
+				new Match(teams[generated_matches[0]], teams[generated_matches[1]]),
+				new Match(teams[generated_matches[2]], teams[generated_matches[3]]),
+				teams[restingIndexes[i]]
+			);
 		}
+		// Generate the reverse of the generated matches
+		// So a match A vs B turns to a match B vs A
+		int[] duplicateIndexes = generateRandomIndexes();
+		for (int i = 0; i < duplicateIndexes.length; i++)
+			rounds[i + teams.length] = rounds[duplicateIndexes[i]].reverse();
 	}
-	
-	private  int[] generateRestingTeams() {
+
+	private int[] generateRandomIndexes() {
+		// Generates an array from 0 to the length of teams and then shuffles it
 		int[] result = IntStream.range(0, teams.length).toArray();
 		shuffle(result);
 		return result;
 	}
 	
-	private  int[] generateMatches(int[] arr, int pos) {
+	private int[] generateMatches(int[] arr, int pos) {
 		int[] result = new int[arr.length - 1];
 		System.arraycopy(arr, 0, result, 0, pos);
 		System.arraycopy(arr, pos + 1, result, pos, arr.length - pos - 1);
@@ -46,7 +52,7 @@ public class League {
 		return result;
 	}
 	
-	private  void shuffle(int[] arr) {
+	private static void shuffle(int[] arr) {
 		Random rnGesus = ThreadLocalRandom.current();
 		for (int i = arr.length - 1; i > 0; i--) {
 			int index = rnGesus.nextInt(i + 1);

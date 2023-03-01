@@ -5,7 +5,7 @@ public class Match {
 	public Team visitor;
 	public int localScore;
 	public int visitorScore;
-	
+	public boolean check = false;
 
 	public Match(Team local, Team visitor) {
 		this.local = local;

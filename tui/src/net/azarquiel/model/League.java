@@ -44,11 +44,6 @@ public class League {
 			addMatch(round.firstMatch);
 			addMatch(round.secondMatch);
 		}
-		for (Entry<Team, Match[]> a : matchesAsLocal.entrySet()) {
-			System.out.print(a.getKey() + ": ");
-			for (Match b : a.getValue()) System.out.print(b +", ");
-			System.out.println();
-		}
 	}
 	
 	private void addMatch(Match match) {

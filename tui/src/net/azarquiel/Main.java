@@ -7,6 +7,7 @@ import net.azarquiel.model.MenuOption;
 import net.azarquiel.model.Round;
 import net.azarquiel.view.SetResults;
 import net.azarquiel.view.ShowCalendar;
+import net.azarquiel.view.ShowClasification;
 import net.azarquiel.view.ShowMenu;
 import net.azarquiel.view.ShowResults;
 
@@ -38,6 +39,11 @@ public class Main {
 				
 			case SHOW_RESULTS:
 				ShowResults.showResultTable();
+				Main.selectedOption = MenuOption.SHOW_MENU;
+				break;
+				
+			case SHOW_CLASIFICATION:
+				new ShowClasification();
 				Main.selectedOption = MenuOption.SHOW_MENU;
 				break;
 

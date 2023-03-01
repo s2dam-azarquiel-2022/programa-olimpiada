@@ -18,7 +18,19 @@ public class SetResults {
 		}
 	}
 	
-	public static void setMatchScore(Match match) {
+	public static void waitForInput(Match match) {
+		boolean flag = true;
+		do {
+			try {
+				setMatchScore(match);
+				flag = false;
+			} catch (Exception e) {
+				System.err.println("Puntuacion incorrecta");
+			}
+		} while (flag);
+	}
+	
+	private static void setMatchScore(Match match) throws Exception {
 	    System.out.println(match + ": ");
 	    String score = Main.scanner.nextLine();
 	    StringTokenizer st1 = new StringTokenizer(score, "-");

@@ -1,5 +1,8 @@
 package net.azarquiel.model;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -14,11 +17,15 @@ public class League {
 	
 	public Round[] rounds = new Round[teams.length * 2];
 	
+	public HashMap<Team, Match[]> matchesAsLocal = new HashMap<>(teams.length);
+	
 	public League() {
 		shuffle(teams);
+		for (int i = 0; i < teams.length; i++) teams[i].id = i;
 		generateRounds();
 		shuffle(rounds, teams.length, rounds.length);
 		for (int i = 0; i < rounds.length; i++) rounds[i].n = i + 1;
+		generateMatchesAsLocal();
 	}
 	
 	private void generateRounds() {
@@ -30,6 +37,34 @@ public class League {
 		for (int i = 0; i < teams.length; i++) {
 			rounds[teams.length + i] = rounds[i].reverse();
 		}
+	}
+	
+	private void generateMatchesAsLocal() {
+		for (Round round : rounds) {
+			addMatch(round.firstMatch);
+			addMatch(round.secondMatch);
+		}
+		for (Entry<Team, Match[]> a : matchesAsLocal.entrySet()) {
+			System.out.print(a.getKey() + ": ");
+			for (Match b : a.getValue()) System.out.print(b +", ");
+			System.out.println();
+		}
+	}
+	
+	private void addMatch(Match match) {
+		matchesAsLocal.compute(match.local, (k, v) -> {
+			if (v == null) return newMatchList(match);
+			else {
+				v[match.visitor.id] = match;
+				return v;
+			}
+		});
+	}
+	
+	private Match[] newMatchList(Match match) {
+		Match[] result = new Match[teams.length];
+		result[match.visitor.id] = match;
+		return result;
 	}
 
 	private static <T> void shuffle(T[] arr) {

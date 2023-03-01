@@ -1,6 +1,7 @@
 package net.azarquiel.model;
 
 public class Team {
+	public int id;
 	public String name;
 
 	public Team(String name) {

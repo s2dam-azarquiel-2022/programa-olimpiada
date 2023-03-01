@@ -8,6 +8,7 @@ import net.azarquiel.model.Round;
 import net.azarquiel.view.SetResults;
 import net.azarquiel.view.ShowCalendar;
 import net.azarquiel.view.ShowMenu;
+import net.azarquiel.view.ShowResults;
 
 public class Main {
 	public static MenuOption selectedOption = MenuOption.SHOW_MENU;
@@ -32,6 +33,11 @@ public class Main {
 				SetResults.setMatchScore(round.firstMatch);
 				SetResults.setMatchScore(round.secondMatch);
 				System.out.println("Resultado anotado\n");
+				Main.selectedOption = MenuOption.SHOW_MENU;
+				break;
+				
+			case SHOW_RESULTS:
+				ShowResults.showResultTable();
 				Main.selectedOption = MenuOption.SHOW_MENU;
 				break;
 

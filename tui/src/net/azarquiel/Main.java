@@ -5,6 +5,7 @@ import java.util.Scanner;
 import net.azarquiel.model.League;
 import net.azarquiel.model.MenuOption;
 import net.azarquiel.model.Round;
+import net.azarquiel.view.EndCompetition;
 import net.azarquiel.view.SetResults;
 import net.azarquiel.view.ShowCalendar;
 import net.azarquiel.view.ShowClasification;
@@ -31,8 +32,8 @@ public class Main {
 			case SET_RESULTS:
 				Round round = SetResults.askRound();
 				if (round == null) break;
-				SetResults.setMatchScore(round.firstMatch);
-				SetResults.setMatchScore(round.secondMatch);
+				SetResults.waitForInput(round.firstMatch);
+				SetResults.waitForInput(round.secondMatch);
 				System.out.println("Resultado anotado\n");
 				Main.selectedOption = MenuOption.SHOW_MENU;
 				break;
@@ -43,7 +44,7 @@ public class Main {
 				break;
 				
 			case SHOW_CLASIFICATION:
-				new ShowClasification();
+				ShowClasification.showClasification();
 				Main.selectedOption = MenuOption.SHOW_MENU;
 				break;
 
@@ -51,5 +52,7 @@ public class Main {
 				break;
 			}
 		}
+		
+		EndCompetition.endCompetition();
 	}
 }

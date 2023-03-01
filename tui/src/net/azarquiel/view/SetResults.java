@@ -24,5 +24,6 @@ public class SetResults {
 	    StringTokenizer st1 = new StringTokenizer(score, "-");
 	    match.localScore = Integer.valueOf(st1.nextToken());
 	   	match.visitorScore = Integer.valueOf(st1.nextToken());
+	   	match.check = true;
 	}
 }

@@ -26,7 +26,6 @@ public class ShowMenu {
 		} catch (Exception e) {
 			System.err.println(errText);
 			System.out.println("");
-			Main.selectedOption = MenuOption.SHOW_MENU;
 		}
 	}
 }

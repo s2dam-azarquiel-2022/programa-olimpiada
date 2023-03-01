@@ -1,8 +1,6 @@
 package net.azarquiel.model;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 

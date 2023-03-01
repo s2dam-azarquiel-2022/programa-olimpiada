@@ -7,15 +7,19 @@ import net.azarquiel.model.Match;
 import net.azarquiel.model.Round;
 
 public class SetResults {
-	public static Round askRound() {
+	public static void askResults() {
+		Round round;
 		try {
 			System.out.println("Selecciona Jornada: ");
 			int n = Integer.valueOf(Main.scanner.nextLine());
-	    	return Main.league.rounds[n - 1];
+	    	round = Main.league.rounds[n - 1];
 		} catch (Exception e) {
 			System.err.println("Error: Jornada inexistente\n");
-			return null;
+			return;
 		}
+		SetResults.waitForInput(round.firstMatch);
+		SetResults.waitForInput(round.secondMatch);
+		System.out.println("Resultado anotado\n");
 	}
 	
 	public static void waitForInput(Match match) {

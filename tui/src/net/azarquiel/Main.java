@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import net.azarquiel.model.League;
 import net.azarquiel.model.MenuOption;
-import net.azarquiel.model.Round;
 import net.azarquiel.view.EndCompetition;
 import net.azarquiel.view.SetResults;
 import net.azarquiel.view.ShowCalendar;
@@ -16,9 +15,10 @@ public class Main {
 	public static MenuOption selectedOption = MenuOption.SHOW_MENU;
 	public static League league;
 	public static Scanner scanner = new Scanner(System.in);
-
+	
 	public static void main(String[] args) {
-		while (selectedOption != MenuOption.END_COMPETITION) {
+		boolean flag = true;
+		while (flag) {
 			switch (selectedOption) {
 			case SHOW_MENU:
 				ShowMenu.showText();
@@ -27,32 +27,51 @@ public class Main {
 				
 			case SHOW_CALENDAR:
 				ShowCalendar.showCalendar();
+				Main.selectedOption = MenuOption.SHOW_MENU;
 				break;
 
 			case SET_RESULTS:
-				Round round = SetResults.askRound();
-				if (round == null) break;
-				SetResults.waitForInput(round.firstMatch);
-				SetResults.waitForInput(round.secondMatch);
-				System.out.println("Resultado anotado\n");
+				if (league == null) {
+					noCalendarErr();
+					break;
+				}
+				SetResults.askResults();
 				Main.selectedOption = MenuOption.SHOW_MENU;
 				break;
 				
 			case SHOW_RESULTS:
+				if (league == null) {
+					noCalendarErr();
+					break;
+				}
 				ShowResults.showResultTable();
 				Main.selectedOption = MenuOption.SHOW_MENU;
 				break;
 				
 			case SHOW_CLASIFICATION:
+				if (league == null) {
+					noCalendarErr();
+					break;
+				}
 				ShowClasification.showClasification();
 				Main.selectedOption = MenuOption.SHOW_MENU;
 				break;
-
-			default:
+				
+			case END_COMPETITION:
+				if (league == null) {
+					noCalendarErr();
+					break;
+				}
+				EndCompetition.endCompetition();
+				flag = false;
+				Main.selectedOption = MenuOption.SHOW_MENU;
 				break;
 			}
 		}
-		
-		EndCompetition.endCompetition();
+	}
+	
+	private static void noCalendarErr() {
+		System.err.println("Tienes que crear el calendario primero");
+		Main.selectedOption = MenuOption.SHOW_MENU;
 	}
 }

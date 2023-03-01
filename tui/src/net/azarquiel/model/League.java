@@ -1,9 +1,7 @@
 package net.azarquiel.model;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.IntStream;
 
 public class League {
 	public Team[] teams = new Team[] {
@@ -16,52 +14,38 @@ public class League {
 	
 	public Round[] rounds = new Round[teams.length * 2];
 	
-	public League() { generateCalendar(); }
+	public League() {
+		shuffle(teams);
+		generateRounds();
+		shuffle(rounds, teams.length, rounds.length);
+		for (int i = 0; i < rounds.length; i++) rounds[i].n = i + 1;
+	}
 	
-	private void generateCalendar() {
-		// Randomized order for teams to rest
-		int[] restingIndexes = generateRandomIndexes();
+	private void generateRounds() {
+		rounds[0] = new Round(new Match(teams[1], teams[2]), new Match(teams[3], teams[4]), teams[0]);
+		rounds[1] = new Round(new Match(teams[0], teams[3]), new Match(teams[2], teams[4]), teams[1]);
+		rounds[2] = new Round(new Match(teams[0], teams[4]), new Match(teams[1], teams[3]), teams[2]);
+		rounds[3] = new Round(new Match(teams[1], teams[4]), new Match(teams[0], teams[2]), teams[3]);
+		rounds[4] = new Round(new Match(teams[0], teams[1]), new Match(teams[2], teams[3]), teams[4]);
 		for (int i = 0; i < teams.length; i++) {
-			// Randomized matches
-			int[] generated_matches = generateMatches(restingIndexes, i);
-			rounds[i] = new Round(
-				new Match(teams[generated_matches[0]], teams[generated_matches[1]]),
-				new Match(teams[generated_matches[2]], teams[generated_matches[3]]),
-				teams[restingIndexes[i]]
-			);
+			rounds[teams.length + i] = rounds[i].reverse();
 		}
-		// Generate the reverse of the generated matches
-		// So a match A vs B turns to a match B vs A
-		int[] duplicateIndexes = generateRandomIndexes();
-		for (int i = 0; i < duplicateIndexes.length; i++)
-			rounds[i + teams.length] = rounds[duplicateIndexes[i]].reverse();
 	}
 
-	private int[] generateRandomIndexes() {
-		// Generates an array from 0 to the length of teams and then shuffles it
-		int[] result = IntStream.range(0, teams.length).toArray();
-		shuffle(result);
-		return result;
+	private static <T> void shuffle(T[] arr) {
+		shuffle(arr, 0, arr.length);
 	}
 	
-	private int[] generateMatches(int[] arr, int pos) {
-		int[] result = new int[arr.length - 1];
-		System.arraycopy(arr, 0, result, 0, pos);
-		System.arraycopy(arr, pos + 1, result, pos, arr.length - pos - 1);
-		shuffle(result);
-		return result;
-	}
-	
-	private static void shuffle(int[] arr) {
+	private static <T> void shuffle(T[] arr, int start, int end) {
 		Random rnGesus = ThreadLocalRandom.current();
-		for (int i = arr.length - 1; i > 0; i--) {
-			int index = rnGesus.nextInt(i + 1);
-			int tmp = arr[index];
+		for (int i = end - 1; i > start; i--) {
+			int index = start + rnGesus.nextInt(i - start);
+			T tmp = arr[index];
 			arr[index] = arr[i];
 			arr[i] = tmp;
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder("Calendario:\n\n");

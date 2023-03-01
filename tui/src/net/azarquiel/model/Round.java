@@ -1,7 +1,6 @@
 package net.azarquiel.model;
 
 public class Round {
-	private static int idGenerator = 1;
 	public int n;
 	public Match firstMatch;
 	public Match secondMatch;
@@ -11,7 +10,6 @@ public class Round {
 		this.firstMatch = firstMatch;
 		this.secondMatch = secondMatch;
 		this.rest = rest;
-		n = idGenerator++;
 	}
 
 	@Override
